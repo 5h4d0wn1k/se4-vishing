@@ -1,99 +1,77 @@
-# SE4 — Vishing Toolkit
+# SE4 — Vishing Lab Kit
 
-Educational voice-phishing (vishing) scenario kit focused on defensive awareness and authorized testing.
-
-## Overview
-
-- Generates templated vishing call scripts for social-engineering training scenarios
-- Builds attacker personas and backstories for realistic exercise role-play
-- Provides a red-flag and reporting training module for defenders
-- Includes phone-number and anchor normalization utilities
-- Emphasis is on DEFENSIVE and awareness use and authorized testing
-- Zero dependencies — pure Python standard library
+Educational vishing **lab kit** for AUTHORIZED internal drills: generates
+watermarked call scripts, a call-handler practice simulator, and a trainee scoring
+rubric. Real-world use is **refused**; everything is synthetic (example.com
+personas, RFC-fictional 1-800-555-01xx numbers).
 
 ## Features
 
-- **Call Script Generator**: Three scenarios (tech support, customer service, urgent authority)
-- **Persona Builder**: Randomized attacker backstories with consistent names, companies, and roles
-- **Defensive Training Module**: Red-flag list and incident-reporting playbook
-- **Phone Normalization**: E.164-style normalization and stable training anchors
-- **Script to TXT**: Outputs clean, shareable training scripts and handouts
-
-## Installation
-
-No external dependencies required — uses Python standard library only.
-
-```bash
-python3 firmware/vishing_toolkit.py
-```
-
-## Usage
-
-```python
-from firmware.vishing_toolkit import VishingScriptGenerator, PersonaBuilder, DefensiveTraining
-
-persona = PersonaBuilder().generate()
-generator = VishingScriptGenerator(persona)
-script = generator.generate(scenario_key="tech_support", target="Training Staff")
-
-handout = DefensiveTraining().handout("1-800-555-0199")
-
-# Save to txt
-with open("training_script.txt", "w") as f:
-    f.write(script)
-```
-
-## Example Output
-
-```
-============================================================
-VISHING TRAINING SCRIPT — Fake Tech Support Call
-Attacker persona : Alleged IT Help Desk Agent
-Target subject   : J. Anderson
-============================================================
-Persona: Alex Carter, Senior Support Engineer at TechNova IT
-
-  Step 1: Hello, this is Alex from TechNova IT support. We have
-          detected a critical security breach on your account...
-
-  Step 5: I'll send you a remote-support link at alex.carter@...
-          Please install and run it now.
-```
+- **Call Script Generator** — tech-support and callback scenarios, branded
+  `AUTHORIZED INTERNAL DRILL`, watermarked `SIMULATION / AUTHORIZED TRAINING ONLY`.
+- **Persona Builder** — synthetic caller personas (never real identities).
+- **Call-Handler Practice Sim** — canned safe-vs-risky handling verdicts.
+- **Scoring Rubric** — 100-point trainee scoring (PASS / REVIEW / FAIL).
+- **JSON + TXT artifacts** under `lab-root/reports/`.
 
 ## IMPORTANT: Read before use.
 
-This toolkit is provided **exclusively** for defensive awareness training and authorized security testing. Using these scripts to conduct real vishing attacks is illegal and unethical.
+Provided **exclusively** for defensive awareness training and authorized security
+testing. Using these scripts to conduct real vishing calls is illegal and unethical.
 
 ### Authorization Requirements
+- Written approval from your organization's security leadership and a formal
+  social-engineering scope are required for any simulated exercise.
+- Never target individuals who have not consented to participate.
+- `--target-org` is locked to `OWN`.
 
-You must obtain explicit written approval from your organization's security leadership and be covered by a formal social-engineering testing scope before conducting any simulated vishing exercise. Never target individuals who have not consented to participate in the training program.
+### Anti-Abuse Safeguards
+- Every run requires an explicit `--lab-root`.
+- Scripts are only generated for internal drills; all content carries drill
+  branding and the watermark.
+- Synthetic personas and fictional 555-01xx numbers only.
+- Requests to remove these safeguards will be refused.
 
 ### Legal Framework
-
-Unauthorized telephone deception is governed by the **Computer Fraud and Abuse Act (CFAA)** (18 U.S.C. § 1030), **wire and mail fraud statutes (18 U.S.C. § 1343)**, state wiretapping laws, and the **EU ePrivacy Directive**. Real vishing carries serious criminal penalties, including imprisonment and fines.
-
-### Acceptable Use
-
-- Authorized social-engineering awareness training with informed participants
-- Red-team engagements with a signed, scoped testing agreement
-- Defensive education for employees and security teams
-- Academic study of social-engineering defense
+- **CFAA (18 U.S.C. § 1030)**, **wire/mail fraud (18 U.S.C. § 1343)**, state
+  wiretapping laws, **EU ePrivacy Directive**.
 
 ### Prohibited Use
-
-- Conducting vishing calls against real individuals or organizations
-- Using these scripts to obtain credentials, money, or other sensitive data
-- Targeting persons outside an approved training scope
-- Any use that violates applicable law or terms of service
+- Real vishing calls against real individuals or organizations.
+- Using scripts to obtain credentials, money, or sensitive data.
+- Targeting anyone outside an approved training scope.
 
 ### No Warranty
-
-This software is provided "as is" without warranty of any kind. The authors assume no liability for damages arising from use or misuse of this tool.
+Provided "AS IS". Claim free from functionality.
 
 ### Responsible Disclosure
+Report observed in-the-wild vishing to relevant authorities and affected orgs.
 
-If you observe in-the-wild vishing campaigns, report them to the relevant authorities and the affected organizations through proper channels.
+## Live Lab Test Plan
+
+1. `python3 vishing_toolkit.py --lab-root ./lab --demo` → exit 0, script + TXT/JSON
+   artifacts written.
+2. `python3 vishing_toolkit.py --lab-root ./lab --rubric` → 100/100 PASS demo.
+3. `python3 vishing_toolkit.py --lab-root ./lab --demo --scenario callback` → second scenario.
+4. Negative: `python3 vishing_toolkit.py --lab-root ./lab --target-org SomeBank` exits non-zero.
+5. `python -m unittest discover -s tests` → 10 offline tests pass.
+
+## Metrics
+
+- Scenarios: 2 (tech_support, callback).
+- Synthetic personas: 6 names × 4 roles, deterministic per seed.
+- Rubric: 7 criteria, 100 points max, grades PASS(≥70) / REVIEW(≥50) / FAIL.
+- Handler sim: safe/risky verdicts via signal matching.
+- Test count: 10.
+
+## Usage
+
+```bash
+python3 vishing_toolkit.py --lab-root ./lab --demo
+python3 vishing_toolkit.py --lab-root ./lab --rubric
+python3 vishing_toolkit.py --lab-root ./lab --seed 7
+```
 
 ## License
 
-MIT License
+MIT
