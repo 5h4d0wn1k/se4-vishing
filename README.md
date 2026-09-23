@@ -3,80 +3,70 @@
 > or hold explicit written authorization to assess**. Unauthorized use is
 > prohibited and may be illegal. Read [ETHICS.md](ETHICS.md) and
 > [SCOPE.md](SCOPE.md) before use. Use at your own risk; **AS IS**, no warranty.
+
 # SE4 — Vishing Lab Kit
 
-Educational vishing **lab kit** for AUTHORIZED internal drills: generates
-watermarked call scripts, a call-handler practice simulator, and a trainee scoring
-rubric. Real-world use is **refused**; everything is synthetic (example.com
-personas, RFC-fictional 1-800-555-01xx numbers).
+![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![GitHub stars](https://img.shields.io/github/stars/5h4d0wn1k/se4-vishing)
+![Last commit](https://img.shields.io/github/last-commit/5h4d0wn1k/se4-vishing)
+![GitHub issues](https://img.shields.io/github/issues/5h4d0wn1k/se4-vishing)
+
+Educational **vishing (voice-phishing) drill simulator** for authorized security-awareness training — generates watermarked call scripts, a call-handler practice simulator, and a 100-point trainee scoring rubric, all against synthetic personas and RFC-fictional `1-800-555-01xx` numbers.
+
+## Why
+
+Voice phishing is one of the most effective social-engineering vectors against organizations. SE4 exists to build **security-awareness** without touching real targets: every script is branded `AUTHORIZED INTERNAL DRILL`, watermarked `SIMULATION / AUTHORIZED TRAINING ONLY`, and locked to your own org (`--target-org` is forced to `OWN`). Real-world vishing is illegal and refused by design. This lab kit helps security teams run consent-gated awareness drills, practice call-handler responses, and score trainees consistently — no emails sent, no calls placed, no real identities used.
 
 ## Features
 
-- **Call Script Generator** — tech-support and callback scenarios, branded
-  `AUTHORIZED INTERNAL DRILL`, watermarked `SIMULATION / AUTHORIZED TRAINING ONLY`.
-- **Persona Builder** — synthetic caller personas (never real identities).
+- **Call Script Generator** — tech-support and callback scenarios, drill-branded and watermarked.
+- **Persona Builder** — synthetic caller personas (never real identities), deterministic per seed.
 - **Call-Handler Practice Sim** — canned safe-vs-risky handling verdicts.
-- **Scoring Rubric** — 100-point trainee scoring (PASS / REVIEW / FAIL).
+- **Scoring Rubric** — 7 criteria / 100 points, grades `PASS`(≥70) / `REVIEW`(≥50) / `FAIL`.
 - **JSON + TXT artifacts** under `lab-root/reports/`.
+- **Anti-abuse safeguards** — explicit `--lab-root` required; safeguard-removal requests refused.
 
-## IMPORTANT: Read before use.
-
-Provided **exclusively** for defensive awareness training and authorized security
-testing. Using these scripts to conduct real vishing calls is illegal and unethical.
-
-### Authorization Requirements
-- Written approval from your organization's security leadership and a formal
-  social-engineering scope are required for any simulated exercise.
-- Never target individuals who have not consented to participate.
-- `--target-org` is locked to `OWN`.
-
-### Anti-Abuse Safeguards
-- Every run requires an explicit `--lab-root`.
-- Scripts are only generated for internal drills; all content carries drill
-  branding and the watermark.
-- Synthetic personas and fictional 555-01xx numbers only.
-- Requests to remove these safeguards will be refused.
-
-### Legal Framework
-- **CFAA (18 U.S.C. § 1030)**, **wire/mail fraud (18 U.S.C. § 1343)**, state
-  wiretapping laws, **EU ePrivacy Directive**.
-
-### Prohibited Use
-- Real vishing calls against real individuals or organizations.
-- Using scripts to obtain credentials, money, or sensitive data.
-- Targeting anyone outside an approved training scope.
-
-### No Warranty
-Provided "AS IS". Claim free from functionality.
-
-### Responsible Disclosure
-Report observed in-the-wild vishing to relevant authorities and affected orgs.
-
-## Live Lab Test Plan
-
-1. `python3 vishing_toolkit.py --lab-root ./lab --demo` → exit 0, script + TXT/JSON
-   artifacts written.
-2. `python3 vishing_toolkit.py --lab-root ./lab --rubric` → 100/100 PASS demo.
-3. `python3 vishing_toolkit.py --lab-root ./lab --demo --scenario callback` → second scenario.
-4. Negative: `python3 vishing_toolkit.py --lab-root ./lab --target-org SomeBank` exits non-zero.
-5. `python -m unittest discover -s tests` → 10 offline tests pass.
-
-## Metrics
-
-- Scenarios: 2 (tech_support, callback).
-- Synthetic personas: 6 names × 4 roles, deterministic per seed.
-- Rubric: 7 criteria, 100 points max, grades PASS(≥70) / REVIEW(≥50) / FAIL.
-- Handler sim: safe/risky verdicts via signal matching.
-- Test count: 10.
-
-## Usage
+## Quickstart
 
 ```bash
+# Demo run: writes script JSON/TXT artifacts, exit 0
 python3 vishing_toolkit.py --lab-root ./lab --demo
+
+# Rubric demo: 100/100 PASS
 python3 vishing_toolkit.py --lab-root ./lab --rubric
+
+# Second scenario (callback)
+python3 vishing_toolkit.py --lab-root ./lab --demo --scenario callback
+
+# Determinism check
 python3 vishing_toolkit.py --lab-root ./lab --seed 7
 ```
 
+```bash
+# Run the offline test suite (10 tests)
+python3 -m unittest discover -s tests -v
+```
+
+## Project structure
+
+```
+se4-vishing/
+├── vishing_toolkit.py  # CLI: script generator, rubric, handler sim
+├── tests/              # offline unittest suite (10 tests)
+└── ETHICS.md, SCOPE.md # authorized-use & scope rules
+```
+
+## Documentation
+
+- [ETHICS.md](ETHICS.md) — authorized-use policy
+- [SCOPE.md](SCOPE.md) — drill scope
+- [SECURITY.md](SECURITY.md) — security policy
+- [CONTRIBUTING.md](CONTRIBUTING.md) — contribution guide
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Requests to weaken the anti-abuse safeguards will be refused.
+
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
